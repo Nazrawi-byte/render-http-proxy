@@ -1,6 +1,8 @@
 const http = require('http');
 const net = require('net');
 
+const PORT = process.env.PORT || 8080;
+
 const proxy = http.createServer();
 
 proxy.on('connect', (req, clientSocket) => {
@@ -12,4 +14,6 @@ proxy.on('connect', (req, clientSocket) => {
   });
 });
 
-proxy.listen(80, () => console.log('HTTP proxy running on port 80'));
+proxy.listen(PORT, () => {
+  console.log(`HTTP proxy running on port ${PORT}`);
+});
