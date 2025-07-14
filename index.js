@@ -1,4 +1,4 @@
-const SocksServer = require('socksv5').SocksServer;
+const { SocksServer } = require('socksv');
 
 const PORT = process.env.PORT || 1080;
 
@@ -7,7 +7,5 @@ const server = SocksServer.createServer((info, accept, deny) => {
 });
 
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ SOCKS5 proxy server running on port ${PORT}`);
+  console.log(`✅ SOCKS5 proxy running on port ${PORT}`);
 });
-
-server.useAuth(SocksServer.auth.None());
