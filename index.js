@@ -1,9 +1,15 @@
 const http = require('http');
 const net = require('net');
+const PORT = process.env.PORT || 10000;
 
-const PORT = process.env.PORT || 8080;
-
-const proxy = http.createServer();
+const proxy = http.createServer((req, res) => {
+  // Respond to GET/HEAD / requests
+  if (req.method === 'GET' || req.method === 'HEAD') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Proxy is live ✅');
+    return;
+  }
+});
 
 proxy.on('connect', (req, clientSocket) => {
   const [host, port] = req.url.split(':');
@@ -15,5 +21,5 @@ proxy.on('connect', (req, clientSocket) => {
 });
 
 proxy.listen(PORT, () => {
-  console.log(`HTTP proxy running on port ${PORT}`);
+  console.log(`✅ HTTP proxy running on port ${PORT}`);
 });
