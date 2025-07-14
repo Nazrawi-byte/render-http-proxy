@@ -1,25 +1,13 @@
-const http = require('http');
-const net = require('net');
-const PORT = process.env.PORT || 10000;
+const SocksServer = require('socksv5').SocksServer;
 
-const proxy = http.createServer((req, res) => {
-  // Respond to GET/HEAD / requests
-  if (req.method === 'GET' || req.method === 'HEAD') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Proxy is live ✅');
-    return;
-  }
+const PORT = process.env.PORT || 1080;
+
+const server = SocksServer.createServer((info, accept, deny) => {
+  accept();
 });
 
-proxy.on('connect', (req, clientSocket) => {
-  const [host, port] = req.url.split(':');
-  const serverSocket = net.connect(port || 80, host, () => {
-    clientSocket.write('HTTP/1.1 200 Connection Established\r\n\r\n');
-    clientSocket.pipe(serverSocket);
-    serverSocket.pipe(clientSocket);
-  });
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ SOCKS5 proxy server running on port ${PORT}`);
 });
 
-proxy.listen(PORT, () => {
-  console.log(`✅ HTTP proxy running on port ${PORT}`);
-});
+server.useAuth(SocksServer.auth.None());
