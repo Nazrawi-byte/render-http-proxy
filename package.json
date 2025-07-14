@@ -1,8 +1,11 @@
 {
-  "name": "render-http-proxy",
+  "name": "render-socks5-proxy",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
+  },
+  "dependencies": {
+    "socksv5": "^1.0.0"
   }
 }
